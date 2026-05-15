@@ -1,225 +1,105 @@
-# 03 · Cost Calculation — Tính chi phí từng Config × 2 Scenarios
+# 03 · Cost Calculation — Chi phí từng Config × 2 Scenarios
 
-> **Mục tiêu**: Với mỗi config đã thiết kế ở `02-config-design.md`, tính cost/turn → cost/conversation → monthly cho cả 2 scenarios (low season + high season).
->
-> **Thời gian**: 55 phút (phần lớn của Main phase) — checkpoint 11:00 và 11:20
+> **Mục tiêu**: Tính cost/turn → cost/conversation → monthly cho cả 2 scenarios (low season + high season).
 
 ---
 
-## Cách làm
+## Tham số chung
 
-**Đừng tính tay từng turn — đó là cách thừa thời gian.** Dùng AI để tính. Dán prompt template từ `prompts/01-cost-calc.md` vào ChatGPT/Claude/Gemini, thay parameters theo config của nhóm, AI sẽ tính cho.
+| Tham số | Giá trị |
+|---|---|
+| System prompt | 500 tokens |
+| User message | 80 tokens |
+| Assistant response | 180 tokens (output) |
+| 1 prior turn (history) | 260 tokens |
+| RAG top-5 chunks | 1,250 tokens |
+| Web search results | 800 tokens (khi bật) |
+| Web search API | $0.008 / query (Tavily) |
+| Human baseline | $0.50 / conversation |
 
-Tuy nhiên nhóm phải **hiểu** kết quả AI trả về, không phải copy-paste mù. Mỗi lần AI trả số, nhóm phải tự kiểm 1 lần: con số này có hợp lý không? Có vẻ quá đắt hay quá rẻ?
+### Scenario A — Mùa thấp điểm
 
----
+| Tham số | Giá trị |
+|---|---|
+| Volume | 300 conversations / ngày |
+| Turns/conv | avg 4 lượt |
+| Intent mix | Guide 50%, Visa 25%, Weather 10%, Booking 10%, Complaint 5% |
+| AI-served ratio | 85% (15% handoff) |
+| Human baseline/tháng | $4,500 |
 
-## Trước khi gọi AI — Setup chung
+### Scenario B — Mùa cao điểm
 
-**Các tham số cố định cho tất cả configs** (tham khảo `cost-reference-card.md` mục 4):
-
-```text
-System prompt:              500 tokens
-User message:                80 tokens
-Assistant response:         180 tokens (output)
-1 prior turn (history):     260 tokens (80 user + 180 assistant)
-RAG top-5 chunks:         1,250 tokens (cố định)
-Web search results:         800 tokens (khi bật)
-Web search API call:       $0.005 / call (Tavily)
-LLM classifier:            ~170 tokens (150 in + 20 out) — nếu dùng
-```
-
-**Scenario A — mùa thấp điểm**:
-
-```text
-Volume:            300 conversations / ngày
-Turns/conv:        avg 4 lượt
-Intent mix:        Guide 50%, Visa 25%, Weather 10%, Booking 10%, Complaint 5%
-AI-served ratio:   85% (15% là Booking + Complaint = handoff)
-```
-
-**Scenario B — mùa cao điểm**:
-
-```text
-Volume:           1,200 conversations / ngày (×4)
-Turns/conv:        avg 7 lượt
-Intent mix:        Guide 30%, Visa 15%, Weather 10%, Booking 35%, Complaint 10%
-AI-served ratio:   55% (45% là handoff)
-```
-
-**Human baseline để so sánh**: $0.50 / conversation cố định.
+| Tham số | Giá trị |
+|---|---|
+| Volume | 1,200 conversations / ngày (×4) |
+| Turns/conv | avg 7 lượt |
+| Intent mix | Guide 30%, Visa 15%, Weather 10%, Booking 35%, Complaint 10% |
+| AI-served ratio | 55% (45% handoff) |
+| Human baseline/tháng | $18,000 |
 
 ---
 
-## Quy trình tính cho 1 config (lặp lại cho từng config)
+## Config 1 — Budget Bot
 
-### Bước 1 — Cost per turn (4 mốc: Turn 1, 3, 5, 7)
-
-Với mỗi mốc, tính:
-
-1. **History tokens** = (T − 1) × 260 nếu Full · min(T−1, N) × 260 nếu Last N · ~150 cố định nếu Summarize.
-2. **Input total** = 500 (sys) + history + 1,250 (RAG) + (800 nếu web ON cho intent này) + 80 (msg)
-3. **Output** = 180 tokens
-4. **Cost model** = (input × $/M_input + output × $/M_output) / 1,000,000
-5. **Cost web API** = $0.005 nếu web ON cho intent này, ngược lại $0
-6. **Cost classifier** = ~$0.000035 nếu dùng LLM classifier, ngược lại $0
-7. **Total cost/turn** = cost model + cost web + cost classifier
-
-→ Dùng prompt template, AI sẽ tự tính. Nhập config + intent + turn number, AI ra bảng kết quả.
-
-### Bước 2 — Cost per conversation cho từng intent
-
-Cost 1 conversation = sum(cost từng turn) trong conversation đó.
-
-- Scenario A: cộng cost của Turn 1 → Turn 4 (4 turns)
-- Scenario B: cộng cost của Turn 1 → Turn 7 (7 turns)
-
-Tính riêng cho mỗi intent (vì web search có thể khác — Visa/Weather bật web, Guide không bật):
-
-```text
-cost_conv_guide   (4 turns) = ____
-cost_conv_visa    (4 turns) = ____  (web search bật cho Visa)
-cost_conv_weather (4 turns) = ____  (web search bật cho Weather)
-cost_1_turn_only             = ____  (Booking + Complaint chỉ 1 turn rồi handoff,
-                                       chỉ tốn classifier nếu dùng LLM)
-```
-
-### Bước 3 — Weighted average cost per conversation (toàn bộ intent)
-
-Lấy % intent mix × cost từng intent:
-
-**Scenario A** (Guide 50%, Visa 25%, Weather 10%, Booking 10%, Complaint 5%):
-
-```text
-avg_cost_A = 50% × cost_conv_guide_4t
-          + 25% × cost_conv_visa_4t
-          + 10% × cost_conv_weather_4t
-          + 10% × cost_1_turn_only
-          +  5% × cost_1_turn_only
-```
-
-**Scenario B** (Guide 30%, Visa 15%, Weather 10%, Booking 35%, Complaint 10%, 7 turns cho AI-served):
-
-```text
-avg_cost_B = 30% × cost_conv_guide_7t
-          + 15% × cost_conv_visa_7t
-          + 10% × cost_conv_weather_7t
-          + 35% × cost_1_turn_only
-          + 10% × cost_1_turn_only
-```
-
-### Bước 4 — Monthly cost
-
-```text
-monthly_A = avg_cost_A × 300 conv/ngày × 30 ngày
-monthly_B = avg_cost_B × 1,200 conv/ngày × 30 ngày
-```
-
-### Bước 5 — So sánh với human baseline
-
-```text
-human_A = $0.50 × 300 × 30 = $4,500 / tháng
-human_B = $0.50 × 1,200 × 30 = $18,000 / tháng
-
-savings_A% = (4,500 − monthly_A) / 4,500 × 100
-savings_B% = (18,000 − monthly_B) / 18,000 × 100
-```
-
-Nếu savings ÂM → AI đắt hơn human → cần justify (24/7? đa ngôn ngữ? scale?).
-
----
-
-## Điền số cho từng config
-
-Dùng AI tính xong, copy số vào đây. Đừng quên kiểm 1 lần xem số có hợp lý không.
-
-### Config 1 — Budget Bot
+**Model:** Gemini 2.5 Flash-Lite ($0.10/$0.40 per 1M) · **Web:** OFF · **History:** Last 3 · **Classifier:** Keyword ($0)
 
 | Item | Scenario A (4 turns) | Scenario B (7 turns) |
 |---|---|---|
 | Cost / conversation (avg) | $0.0010 | $0.0012 |
 | Monthly cost | $9.00 | $43.07 |
 | Human baseline | $4,500 | $18,000 |
-| **Rẻ hơn human** | 500× | 417× |
-| **Savings %** | 99.8% | 99.7% |
+| Rẻ hơn human | 500× | 417× |
+| Savings % | 99.8% | 99.7% |
 
-**Sanity check** (trả lời cho nhóm trước khi đi tiếp):
-
-- Cost/conv có nằm trong $0.005–$0.10 không? Nếu quá thấp → có thể quên component (RAG? web? classifier?). Nếu quá cao → có thể tính sai history.
-- Monthly có hợp lý không? (cheap config thường $100–$300, premium config có thể đến $3,000+)
-
-```text
-Cost/conv siêu thấp (khoảng $0.0010) vì dùng Gemini 2.5 Flash-Lite (model siêu rẻ), cộng với tắt toàn bộ Web Search và dùng Keyword Classifier ($0). Mặc dù dưới mức $0.005 nhưng phép tính đã bao gồm đủ tokens cho RAG và History Last 3. Mức tiết kiệm vô cùng ấn tượng.
-```
+**Nhận xét:** Cost/conv siêu thấp ($0.0010) vì dùng Gemini 2.5 Flash-Lite, tắt toàn bộ Web Search và Keyword Classifier ($0). Tuy dưới mức $0.005 nhưng phép tính đã bao gồm đủ RAG và History Last 3. Mức tiết kiệm vô cùng ấn tượng so với human.
 
 ---
 
-### Config 2 — Premium Concierge
+## Config 2 — Premium Concierge
 
-| Item | Scenario A | Scenario B |
+**Model:** Claude Sonnet 4.6 ($3.00/$15.00 per 1M) · **Web:** ON selective (Visa, Weather, Guide) · **History:** Full · **Classifier:** GPT-4o-mini
+
+| Item | Scenario A (4 turns) | Scenario B (7 turns) |
 |---|---|---|
 | Cost / conversation (avg) | $0.057 | $0.069 |
-| Monthly cost | $513.95 | $2490.43 |
-| **Rẻ hơn human** | 8.75× | 7.22× |
-| **Savings %** | 88.5% | 86.1% |
+| Monthly cost | $513.95 | $2,490.43 |
+| Human baseline | $4,500 | $18,000 |
+| Rẻ hơn human | 8.75× | 7.22× |
+| Savings % | 88.5% | 86.1% |
 
-**Sanity check**:
-
-```text
-Cost/conv khá cao nhưng vẫn nằm ở mức chấp nhận được (<$0.10). Tuy monthly B tốn gần $2.5k nhưng vẫn rẻ hơn human ~7 lần. Sự tăng vọt từ Scenario A sang B là do sử dụng Full History, khiến các turn sau trong 7 turns bị đội giá (token accumulation).
-```
+**Nhận xét:** Cost/conv khá cao nhưng vẫn dưới $0.10. Monthly B tốn gần $2,500 nhưng vẫn rẻ hơn human ~7×. Sự tăng vọt từ Scenario A sang B là do Full History — các turn sau trong 7 turns bị đội giá nặng (token accumulation).
 
 ---
 
-### Config 3 — Smart Mix
+## Config 3 — Smart Mix
+
+**Model:** Haiku 4.5 ($1.00/$5.00) cho Visa + Flash-Lite ($0.10/$0.40) cho Guide/Weather · **Web:** ON selective (Visa, Weather) · **History:** Last 5 · **Classifier:** Keyword ($0)
 
 | Item | Scenario A (4 turns) | Scenario B (7 turns) |
 |---|---|---|
 | Cost / conversation (avg) | $0.0159 | $0.0195 |
 | Monthly cost | $143.10 | $702.00 |
 | Human baseline | $4,500 | $18,000 |
-| **Rẻ hơn human** | 31.5× | 25.6× |
-| **Savings %** | 96.8% | 96.1% |
+| Rẻ hơn human | 31.5× | 25.6× |
+| Savings % | 96.8% | 96.1% |
 
-**Sanity check**:
-
-```text
-Cost/conv nằm trong range $0.005–$0.10 — hợp lý. Smart Mix đắt hơn Budget Bot (~16×) vì Visa dùng Haiku 4.5 + web search ON, nhưng rẻ hơn Premium Concierge (~3.6×) vì Guide và Weather dùng Flash-Lite và history chỉ Last 5. Monthly B tăng ~4.9× so với A (Budget Bot chỉ tăng ~4.8×) — hợp lý vì Scenario B có nhiều Booking/Complaint hơn (handoff $0) bù lại turns dài hơn.
-```
+**Nhận xét:** Cost/conv nằm trong range $0.005–$0.10 — hợp lý. Smart Mix đắt hơn Budget Bot (~16×) vì Visa dùng Haiku 4.5 + web search ON, nhưng rẻ hơn Premium Concierge (~3.6×) vì Guide và Weather dùng Flash-Lite và history chỉ Last 5.
 
 ---
 
-### Config 4 (optional)
+## Quality + Speed Estimate
 
-Không thiết kế Config 4 — 3 configs đã đủ khác biệt để thấy tradeoff.
-
----
-
-## Quality + Speed estimate (qualitative)
-
-Mỗi config — estimate Low / Medium / High. Không có công cụ đo chính xác trong lab, ước tính dựa trên model tier + web search + history.
-
-| Config | Quality (Low/Med/High) | Speed (Low/Med/High) | Lý do |
+| Config | Quality | Speed | Lý do |
 |---|---|---|---|
-| 1: Budget Bot | Low | High | Dùng model siêu rẻ, tắt web search và history ngắn nên tốc độ rất nhanh. |
-| 2: Premium Concierge | High | Med | Dùng model xịn, bật web search chọn lọc, nhưng độ trễ có thể cao hơn do model xịn xử lý Full History. |
-| 3: Smart Mix | Med-High | Med | Visa dùng Haiku 4.5 → chất lượng tốt; Guide dùng Flash-Lite → nhanh nhưng kém hơn một chút; web ON cho Visa+Weather thêm ~1s độ trễ. |
-| 4: — | — | — | Không có Config 4. |
-
-**Hướng dẫn ước tính**:
-
-- **Quality**: Cheap model → Low (70%). Strong model → High (88%). Web search bật → Quality tăng vì info real-time. History Full → Quality tốt hơn ở conversation dài.
-- **Speed**: Cheap model thường nhanh (~200ms). Strong model chậm hơn (~1–3s). Web search bật → +1–2s.
+| Budget Bot | Low | High | Model siêu rẻ, tắt web, history ngắn → tốc độ nhanh nhưng thông tin có thể outdated. |
+| Premium Concierge | High | Med | Model xịn, bật web selective, Full History → chất lượng cao nhưng độ trễ tăng. |
+| Smart Mix | Med-High | Med | Visa dùng Haiku 4.5 → chính xác; Guide dùng Flash-Lite → nhanh; web ON cho Visa+Weather thêm ~1s. |
 
 ---
 
-## Bảng kiểm trước khi sang file tiếp theo
+## Bảng kiểm
 
-- [x] Tất cả ≥3 configs đã có cost/conv + monthly cho cả 2 scenarios
+- [x] Tất cả 3 configs đã có cost/conv + monthly cho cả 2 scenarios
 - [x] Đã so sánh từng config với human baseline ($0.50/conv)
 - [x] Có quality + speed estimate cho mỗi config
-- [x] Đã sanity check — không có số "quá lạ" (cost <$0.001 hoặc >$1/conv)
-
-⚑ **Checkpoint 11:00**: ≥1 config đã tính cost xong &nbsp; · &nbsp; ⚑ **Checkpoint 11:20**: tất cả configs đã tính cost xong cho cả 2 scenarios.
-
-Xong → mở `04-comparison-table.md`.
+- [x] Đã sanity check — không có số quá lạ
