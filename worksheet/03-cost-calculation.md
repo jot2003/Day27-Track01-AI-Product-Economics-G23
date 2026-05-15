@@ -133,15 +133,15 @@ Nếu savings ÂM → AI đắt hơn human → cần justify (24/7? đa ngôn ng
 
 Dùng AI tính xong, copy số vào đây. Đừng quên kiểm 1 lần xem số có hợp lý không.
 
-### Config 1 — _________________________
+### Config 1 — Budget Bot
 
 | Item | Scenario A (4 turns) | Scenario B (7 turns) |
 |---|---|---|
-| Cost / conversation (avg) | $________ | $________ |
-| Monthly cost | $________ | $________ |
+| Cost / conversation (avg) | $0.0010 | $0.0012 |
+| Monthly cost | $9.00 | $43.07 |
 | Human baseline | $4,500 | $18,000 |
-| **Rẻ hơn human ___×** | _____× | _____× |
-| **Savings %** | ___% | ___% |
+| **Rẻ hơn human** | 500× | 417× |
+| **Savings %** | 99.8% | 99.7% |
 
 **Sanity check** (trả lời cho nhóm trước khi đi tiếp):
 
@@ -149,25 +149,24 @@ Dùng AI tính xong, copy số vào đây. Đừng quên kiểm 1 lần xem số
 - Monthly có hợp lý không? (cheap config thường $100–$300, premium config có thể đến $3,000+)
 
 ```text
-(điền nhận xét nhanh — "có vẻ ổn", "Scenario B đắt gấp X lần A vì ...",
- hoặc "phải tính lại vì cost/conv $X.XX không hợp lý")
+Cost/conv siêu thấp (khoảng $0.0010) vì dùng Gemini 2.5 Flash-Lite (model siêu rẻ), cộng với tắt toàn bộ Web Search và dùng Keyword Classifier ($0). Mặc dù dưới mức $0.005 nhưng phép tính đã bao gồm đủ tokens cho RAG và History Last 3. Mức tiết kiệm vô cùng ấn tượng.
 ```
 
 ---
 
-### Config 2 — _________________________
+### Config 2 — Premium Concierge
 
 | Item | Scenario A | Scenario B |
 |---|---|---|
-| Cost / conversation (avg) | $________ | $________ |
-| Monthly cost | $________ | $________ |
-| **Rẻ hơn human ___×** | _____× | _____× |
-| **Savings %** | ___% | ___% |
+| Cost / conversation (avg) | $0.057 | $0.069 |
+| Monthly cost | $513.95 | $2490.43 |
+| **Rẻ hơn human** | 8.75× | 7.22× |
+| **Savings %** | 88.5% | 86.1% |
 
 **Sanity check**:
 
 ```text
-(điền nhận xét nhanh)
+Cost/conv khá cao nhưng vẫn nằm ở mức chấp nhận được (<$0.10). Tuy monthly B tốn gần $2.5k nhưng vẫn rẻ hơn human ~7 lần. Sự tăng vọt từ Scenario A sang B là do sử dụng Full History, khiến các turn sau trong 7 turns bị đội giá (token accumulation).
 ```
 
 ---
@@ -206,8 +205,8 @@ Mỗi config — estimate Low / Medium / High. Không có công cụ đo chính 
 
 | Config | Quality (Low/Med/High) | Speed (Low/Med/High) | Lý do |
 |---|---|---|---|
-| 1: ___ | ___ | ___ | (1 câu) |
-| 2: ___ | ___ | ___ | (1 câu) |
+| 1: Budget Bot | Low | High | Dùng model siêu rẻ, tắt web search và history ngắn nên tốc độ rất nhanh. |
+| 2: Premium Concierge | High | Med | Dùng model xịn, bật web search chọn lọc, nhưng độ trễ có thể cao hơn do model xịn xử lý Full History. |
 | 3: ___ | ___ | ___ | (1 câu) |
 | 4: ___ | ___ | ___ | (1 câu) |
 

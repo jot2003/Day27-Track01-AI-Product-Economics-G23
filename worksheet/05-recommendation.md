@@ -102,32 +102,32 @@ Nói gì:
 
 ### Nhịp 0:30 – 1:00 — Config overview
 
-Ai trình bày: __________
+Ai trình bày: Nguyễn Thành Nam
 
 Nói gì (đọc nhanh tên + knobs 3 configs):
 
 ```text
-(viết 3 dòng vào đây)
+Chúng tôi đã thiết kế các config với các định hướng khác nhau. Config 1 'Budget Bot' tối ưu chi phí (model siêu rẻ, tắt web, history ngắn). Config 2 'Premium Concierge' ưu tiên trải nghiệm 5 sao (model xịn, bật web chọn lọc, full history). Config 3 'Smart Mix' cân bằng chất lượng/chi phí bằng cách linh hoạt tuỳ biến theo từng loại intent.
 ```
 
 ### Nhịp 1:00 – 2:00 — Cost comparison
 
-Ai trình bày: __________
+Ai trình bày: Quách Gia Được
 
 Nói gì (chiếu bảng so sánh, highlight rẻ nhất / đắt nhất):
 
 ```text
-(viết 3–4 câu vào đây)
+Nhìn vào bảng so sánh, ta thấy Budget Bot là lựa chọn rẻ nhất với chi phí chỉ $43/tháng cho Scenario B, rẻ gấp 57.8 lần so với Premium Concierge ($2490/tháng). Mức chênh lệch lớn này phản ánh rõ chất lượng dịch vụ: Budget Bot siêu tiết kiệm nhưng thiếu thông tin cập nhật (tắt Web) và dễ mất ngữ cảnh. Quyết định đầu tư sẽ phụ thuộc vào việc chúng ta ưu tiên kiểm soát budget (mùa thấp điểm) hay trải nghiệm VIP (khách sạn/tour cao cấp).
 ```
 
 ### Nhịp 2:00 – 3:00 — Key insight
 
-Ai trình bày: __________
+Ai trình bày: Nguyễn Thành Nam
 
 Nói gì (knob nào ảnh hưởng cost nhiều nhất + tại sao):
 
 ```text
-(viết 2–3 câu vào đây)
+Qua phân tích số liệu, chúng tôi nhận thấy 'Model Tier' là yếu tố ảnh hưởng mạnh nhất đến chi phí, việc dùng model đắt hơn đẩy base cost lên hàng chục lần. Tiếp theo là 'History Management', ở những hội thoại dài như Scenario B, việc dùng Full History khiến số lượng token phải xử lý bị đội lên theo cấp số cộng qua từng lượt, gây tốn kém đáng kể so với việc cắt ngắn lịch sử (Last 3).
 ```
 
 ### Nhịp 3:00 – 4:30 — Recommendation + justification
@@ -142,20 +142,18 @@ Nói gì (đọc paragraph "Final answer" ở trên):
 
 ### Nhịp 4:30 – 5:00 — Hardest question prep
 
-Ai trình bày: __________
+Ai trình bày: Quách Gia Được
 
 Nhóm dự đoán câu hỏi khó nhất sẽ bị hỏi là gì?
 
 ```text
-(viết câu hỏi vào đây — ví dụ:
-"Tại sao không chọn Budget Bot cho high season? Premium tăng cost nhiều hơn
-benefit có không?")
+Tại sao chi phí của Premium Concierge ở Scenario B lại tăng vọt lên tới $2490/tháng, mặc dù volume chỉ gấp 4 lần so với Scenario A ($513/tháng)? Có cách nào tối ưu không?
 ```
 
 Câu trả lời sẵn:
 
 ```text
-(viết câu trả lời 2–3 câu)
+Chi phí tăng vọt một phần do Scenario B yêu cầu hội thoại dài hơn (7 lượt so với 4 lượt). Vì Premium dùng Full History, lượng token input ở các lượt sau sẽ phình to rất nhanh, cộng hưởng với giá đắt đỏ của model Claude Sonnet 4.6. Để tối ưu, chúng ta có thể chuyển sang Summarize history thay vì giữ Full History nguyên bản, hoặc dùng Strong Model giá rẻ hơn như DeepSeek V4 Pro.
 ```
 
 ---
