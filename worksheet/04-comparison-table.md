@@ -80,8 +80,8 @@ Không có config nào đắt hơn human. Dù Config đắt nhất (Premium Conc
 
 ## Bảng kiểm trước khi sang file tiếp theo
 
-- [ ] Bảng đầy đủ — không còn ô trống
-- [ ] Đã có 4 câu trả lời cho 4 quan sát ở trên
-- [ ] Nhóm đồng thuận về số trong bảng (đã sanity check)
+- [x] Bảng đầy đủ — không còn ô trống
+- [x] Đã có 4 câu trả lời cho 4 quan sát ở trên
+- [x] Nhóm đồng thuận về số trong bảng (đã sanity check)
 
 Xong → mở `05-recommendation.md` để viết recommendation cuối + chuẩn bị present.

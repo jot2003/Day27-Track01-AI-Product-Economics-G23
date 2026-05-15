@@ -178,30 +178,30 @@ Nhóm có thể thiết kế thêm config thứ 4 để có thêm điểm so sá
 **Tên config**:
 
 ```text
-(điền tên vào đây)
+(không thiết kế Config 4 — 3 configs đã đủ khác biệt để thấy tradeoff rõ ràng)
 ```
 
 ### 3 Knobs
 
 ```text
-Model: ___    Web: ___    History: ___
+N/A
 ```
 
 ### Lý do
 
 ```text
-(điền 1–2 câu)
+N/A
 ```
 
 ---
 
 ## Bảng kiểm trước khi tính cost
 
-- [ ] ≥3 configs đã đặt tên (không chỉ "Config 1/2/3")
-- [ ] Mỗi config đã chốt rõ 3 knobs (không còn ô trống)
-- [ ] Mỗi config có ≥2 câu lý do
-- [ ] 3 configs đủ khác biệt — không phải chỉ đổi mỗi 1 knob nhỏ
-- [ ] Nhóm đồng thuận đây là 3 configs đáng so sánh
+- [x] ≥3 configs đã đặt tên (không chỉ "Config 1/2/3")
+- [x] Mỗi config đã chốt rõ 3 knobs (không còn ô trống)
+- [x] Mỗi config có ≥2 câu lý do
+- [x] 3 configs đủ khác biệt — không phải chỉ đổi mỗi 1 knob nhỏ
+- [x] Nhóm đồng thuận đây là 3 configs đáng so sánh
 
 **Nếu 3 configs quá giống nhau** (chỉ đổi model, knobs khác giống hệt) → quay lại tweak. Mục đích là thấy tradeoff — configs giống nhau quá → không thấy tradeoff.
 

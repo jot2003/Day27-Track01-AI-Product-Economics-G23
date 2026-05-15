@@ -191,12 +191,7 @@ Cost/conv nằm trong range $0.005–$0.10 — hợp lý. Smart Mix đắt hơn 
 
 ### Config 4 (optional)
 
-| Item | Scenario A | Scenario B |
-|---|---|---|
-| Cost / conversation (avg) | $________ | $________ |
-| Monthly cost | $________ | $________ |
-| **Rẻ hơn human ___×** | _____× | _____× |
-| **Savings %** | ___% | ___% |
+Không thiết kế Config 4 — 3 configs đã đủ khác biệt để thấy tradeoff.
 
 ---
 
@@ -209,7 +204,7 @@ Mỗi config — estimate Low / Medium / High. Không có công cụ đo chính 
 | 1: Budget Bot | Low | High | Dùng model siêu rẻ, tắt web search và history ngắn nên tốc độ rất nhanh. |
 | 2: Premium Concierge | High | Med | Dùng model xịn, bật web search chọn lọc, nhưng độ trễ có thể cao hơn do model xịn xử lý Full History. |
 | 3: Smart Mix | Med-High | Med | Visa dùng Haiku 4.5 → chất lượng tốt; Guide dùng Flash-Lite → nhanh nhưng kém hơn một chút; web ON cho Visa+Weather thêm ~1s độ trễ. |
-| 4: ___ | ___ | ___ | (1 câu) |
+| 4: — | — | — | Không có Config 4. |
 
 **Hướng dẫn ước tính**:
 
@@ -220,10 +215,10 @@ Mỗi config — estimate Low / Medium / High. Không có công cụ đo chính 
 
 ## Bảng kiểm trước khi sang file tiếp theo
 
-- [ ] Tất cả ≥3 configs đã có cost/conv + monthly cho cả 2 scenarios
-- [ ] Đã so sánh từng config với human baseline ($0.50/conv)
-- [ ] Có quality + speed estimate cho mỗi config
-- [ ] Đã sanity check — không có số "quá lạ" (cost <$0.001 hoặc >$1/conv)
+- [x] Tất cả ≥3 configs đã có cost/conv + monthly cho cả 2 scenarios
+- [x] Đã so sánh từng config với human baseline ($0.50/conv)
+- [x] Có quality + speed estimate cho mỗi config
+- [x] Đã sanity check — không có số "quá lạ" (cost <$0.001 hoặc >$1/conv)
 
 ⚑ **Checkpoint 11:00**: ≥1 config đã tính cost xong &nbsp; · &nbsp; ⚑ **Checkpoint 11:20**: tất cả configs đã tính cost xong cho cả 2 scenarios.
 

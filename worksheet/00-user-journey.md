@@ -138,9 +138,9 @@ Tourist thường có nhu cầu hỏi rất đa dạng intent (từ thời tiế
 
 ## Bảng kiểm trước khi sang file tiếp theo
 
-- [ ] Mỗi người trong nhóm đã viết ≥5 câu hỏi tourist
-- [ ] Đã gom + phân loại intent cho ≥10 câu (bảng trên)
-- [ ] Đã có phân bố intent % của nhóm (so với đề bài)
-- [ ] Có ít nhất 1 insight về cách tourist thật sự dùng chatbot
+- [x] Mỗi người trong nhóm đã viết ≥5 câu hỏi tourist
+- [x] Đã gom + phân loại intent cho ≥10 câu (bảng trên)
+- [x] Đã có phân bố intent % của nhóm (so với đề bài)
+- [x] Có ít nhất 1 insight về cách tourist thật sự dùng chatbot
 
 Xong → mở `01-base-flow.md`.
