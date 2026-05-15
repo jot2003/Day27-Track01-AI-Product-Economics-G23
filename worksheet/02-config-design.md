@@ -25,7 +25,7 @@ Tham khảo bảng pricing chi tiết tại `cost-reference-card.md` mục **3. 
 **Tên config** (gợi mở: "Budget Bot", "Bare Minimum", "Lean Mode", "Night Mode" — đặt tên có cá tính):
 
 ```text
-(điền tên vào đây)
+Budget Bot
 ```
 
 ### 3 Knobs
@@ -33,14 +33,14 @@ Tham khảo bảng pricing chi tiết tại `cost-reference-card.md` mục **3. 
 **① Model tier**:
 
 ```text
-Response model: __________________ → giá $_____ / $_____  per 1M tokens (input/output)
-Classifier model: __________________ → giá $_____ / $_____  per 1M tokens (hoặc keyword = $0)
+Response model: Gemini 2.5 Flash-Lite → giá $0.10 / $0.40  per 1M tokens (input/output)
+Classifier model: Keyword → giá $0 / $0  per 1M tokens (hoặc keyword = $0)
 ```
 
 **② Web search**:
 
 ```text
-□ OFF
+☑ OFF
 □ ON selective — bật cho intent: __________________
 □ ON broad
 ```
@@ -48,7 +48,7 @@ Classifier model: __________________ → giá $_____ / $_____  per 1M tokens (ho
 **③ History management**:
 
 ```text
-□ Last 3
+☑ Last 3
 □ Last 5
 □ Full
 □ Summarize every ___ turns
@@ -63,14 +63,13 @@ Trước khi viết, tự hỏi:
 - Khách hàng nào sẽ hài lòng nhất với config này? Khách nào sẽ thất vọng?
 
 ```text
-(điền 2–3 câu lý do vào đây)
+Config này phục vụ tốt nhất khi volume cao đột biến (như mùa cao điểm) hoặc cho các câu hỏi FAQ cơ bản với budget bị siết chặt. Trade-off là chi phí cực rẻ (tiết kiệm tối đa) nhưng câu trả lời có thể kém cập nhật thông tin theo thời gian thực (vì tắt web search). Khách hàng hỏi thông tin chung (guide, văn hóa) sẽ hài lòng, nhưng khách cần thông tin chính xác về thời tiết hay chính sách visa mới nhất có thể bị thất vọng.
 ```
 
 ### Rủi ro lớn nhất của config này
 
 ```text
-(điền 1 câu rủi ro — ví dụ: "Visa info có thể outdated nếu web OFF",
- "Khách quên context khi history Last 3", "Cost spike nếu volume tăng đột biến")
+Visa info có thể outdated vì web search OFF, và bot có thể quên ngữ cảnh nếu khách hàng chat quá dài (history Last 3).
 ```
 
 ---
@@ -80,7 +79,7 @@ Trước khi viết, tự hỏi:
 **Tên config**:
 
 ```text
-(điền tên vào đây)
+Premium Concierge
 ```
 
 ### 3 Knobs
@@ -88,15 +87,15 @@ Trước khi viết, tự hỏi:
 **① Model tier**:
 
 ```text
-Response model: __________________ → giá $_____ / $_____  per 1M tokens
-Classifier model: __________________ → giá $_____ / $_____  per 1M tokens (hoặc keyword)
+Response model: Claude Sonnet 4.6 → giá $3.00 / $15.00  per 1M tokens
+Classifier model: GPT-4o-mini → giá $0.15 / $0.60  per 1M tokens (LLM Classifier)
 ```
 
 **② Web search**:
 
 ```text
 □ OFF
-□ ON selective — bật cho intent: __________________
+☑ ON selective — bật cho intent: Visa, Weather, Guide
 □ ON broad
 ```
 
@@ -105,20 +104,20 @@ Classifier model: __________________ → giá $_____ / $_____  per 1M tokens (ho
 ```text
 □ Last 3
 □ Last 5
-□ Full
+☑ Full
 □ Summarize every ___ turns
 ```
 
 ### Lý do nhóm chọn config này
 
 ```text
-(điền 2–3 câu lý do vào đây)
+Config này tập trung vào trải nghiệm cao cấp (Premium) nhất, sử dụng Strong model (Claude Sonnet 4.6) đảm bảo chất lượng, ngữ cảnh dài được giữ trọn vẹn với Full History. Việc bật Web Search selective giúp thông tin thực tế được cập nhật (đặc biệt Visa và Weather), nhắm vào phục vụ khách hàng VIP đòi hỏi sự chính xác tuyệt đối.
 ```
 
 ### Rủi ro lớn nhất của config này
 
 ```text
-(điền 1 câu rủi ro)
+Chi phí hoạt động sẽ rất cao, dễ làm thâm hụt ngân sách nếu gặp volume cực lớn (Scenario B) do sử dụng Full History (token count phình to theo từng turn) kết hợp model đắt tiền.
 ```
 
 ---

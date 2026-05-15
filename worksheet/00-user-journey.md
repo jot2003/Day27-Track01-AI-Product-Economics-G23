@@ -33,16 +33,26 @@ Viết **5–7 câu hỏi bằng tiếng Anh** mình sẽ thật sự gửi cho 
 (điền 5–7 câu hỏi tiếng Anh vào đây)
 ```
 
-### Tourist #2 (Tên thành viên: _________)
+### Tourist #2 (Tên thành viên: Quách Gia Được)
 
 ```text
-(điền 5–7 câu hỏi tiếng Anh vào đây)
+1. Hi! I'm planning a 2-week trip to Vietnam with my family. What's the best itinerary starting from Ho Chi Minh City?
+2. Do US citizens need a visa to enter Vietnam? How long does the process take?
+3. What is the weather like in Sapa during December? Is it too cold for kids?
+4. Can you recommend some must-try local street food in Hanoi that are safe for foreigners?
+5. I would like to book a 2-day Ha Long Bay cruise. Can you help me with that?
+6. Is it easy to use credit cards in Vietnam or should I bring a lot of cash?
 ```
 
-### Tourist #3 (Tên thành viên: _________)
+### Tourist #3 (Tên thành viên: Nguyễn Thành Nam)
 
 ```text
-(điền 5–7 câu hỏi tiếng Anh vào đây)
+1. Do I need to book domestic flights in advance, or can I buy tickets at the airport?
+2. What are the top luxury hotels in Hoi An with a private beach?
+3. What is the current visa policy for Australian passport holders?
+4. Is it currently raining in Da Nang?
+5. I want to book a private tour guide for my family in Hue, can you arrange that?
+6. Are there any local cultural events happening next week in Hanoi?
 ```
 
 ---
@@ -67,16 +77,16 @@ Sau khi gom, điền bảng phân loại:
 
 | # | Câu hỏi (1 dòng) | Intent thuộc loại nào | Cần bao nhiêu lượt chat để xong? | Bot trả lời hay chuyển người? |
 |---|---|---|---|---|
-| 1 | | | | □ Bot · □ Người |
-| 2 | | | | □ Bot · □ Người |
-| 3 | | | | □ Bot · □ Người |
-| 4 | | | | □ Bot · □ Người |
-| 5 | | | | □ Bot · □ Người |
-| 6 | | | | □ Bot · □ Người |
-| 7 | | | | □ Bot · □ Người |
-| 8 | | | | □ Bot · □ Người |
-| 9 | | | | □ Bot · □ Người |
-| 10 | | | | □ Bot · □ Người |
+| 1 | Best itinerary from Ho Chi Minh City? | Guide | 4 | ☑ Bot · □ Người |
+| 2 | Do US citizens need a visa? | Visa | 3 | ☑ Bot · □ Người |
+| 3 | Weather in Sapa in December? | Weather | 2 | ☑ Bot · □ Người |
+| 4 | Safe street food in Hanoi? | Guide | 3 | ☑ Bot · □ Người |
+| 5 | Book 2-day Ha Long Bay cruise? | Booking | 1 | □ Bot · ☑ Người |
+| 6 | Easy to use credit cards in Vietnam? | Guide | 2 | ☑ Bot · □ Người |
+| 7 | Top luxury hotels in Hoi An? | Guide | 3 | ☑ Bot · □ Người |
+| 8 | Visa policy for Australian passport? | Visa | 3 | ☑ Bot · □ Người |
+| 9 | Raining in Da Nang currently? | Weather | 2 | ☑ Bot · □ Người |
+| 10 | Book a private tour guide in Hue? | Booking | 1 | □ Bot · ☑ Người |
 
 ---
 
@@ -87,36 +97,35 @@ Trả lời nhanh 4 câu — sẽ dùng lại ở các bước sau:
 **Tổng số câu hỏi nhóm gom được**:
 
 ```text
-(điền số vào đây)
+12
 ```
 
 **Phân bố intent thực tế của nhóm** (% mỗi intent):
 
 ```text
-Guide: ___%
-Visa: ___%
-Weather: ___%
-Booking: ___%
-Khiếu nại: ___%
+Guide: 40%
+Visa: 20%
+Weather: 20%
+Booking: 20%
+Khiếu nại: 0%
 ```
 
 **Số lượt chat trung bình để xong 1 chủ đề**:
 
 ```text
-(điền số vào đây — ví dụ: "4 lượt cho info, 1 lượt cho booking")
+~3 lượt cho info (Guide/Visa/Weather), 1 lượt cho booking
 ```
 
 **Đối chiếu với đề bài** (Scenario A = 4 lượt, Scenario B = 7 lượt):
 
 ```text
-Hợp lý vì... / Khác vì... (điền vào đây)
+Khá hợp lý vì một conversation có thể gộp nhiều chủ đề (VD: hỏi Visa xong hỏi luôn Weather, Guide). 4-7 lượt là mức trung bình để hoàn thành một hành trình thông tin đa dạng.
 ```
 
 **Insight bất ngờ — điều gì nhóm chỉ hiểu sau khi đóng vai?**
 
 ```text
-(điền 1–2 câu vào đây — ví dụ: "tourist thường hỏi nhiều intent trong 1 conversation",
-"câu hỏi visa phức tạp hơn tưởng — cần 4–5 lượt", "câu hỏi booking thường rất ngắn")
+Tourist thường có nhu cầu hỏi rất đa dạng intent (từ thời tiết, visa đến guide) trong cùng một lượt chat. Hơn nữa, câu hỏi Booking thường kết thúc bot session rất nhanh do handoff.
 ```
 
 ---
