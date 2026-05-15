@@ -127,7 +127,7 @@ Chi phí hoạt động sẽ rất cao, dễ làm thâm hụt ngân sách nếu 
 **Tên config**:
 
 ```text
-(điền tên vào đây)
+Smart Mix
 ```
 
 ### 3 Knobs
@@ -135,15 +135,16 @@ Chi phí hoạt động sẽ rất cao, dễ làm thâm hụt ngân sách nếu 
 **① Model tier**:
 
 ```text
-Response model: __________________ → giá $_____ / $_____  per 1M tokens
-Classifier model: __________________ → giá $_____ / $_____  per 1M tokens (hoặc keyword)
+Response model (Visa intent): Claude Haiku 4.5 → giá $1.00 / $5.00 per 1M tokens
+Response model (Guide/Weather intent): Gemini 2.5 Flash-Lite → giá $0.10 / $0.40 per 1M tokens
+Classifier model: Keyword → giá $0 / $0 per 1M tokens (keyword = $0)
 ```
 
 **② Web search**:
 
 ```text
 □ OFF
-□ ON selective — bật cho intent: __________________
+☑ ON selective — bật cho intent: Visa, Weather
 □ ON broad
 ```
 
@@ -151,7 +152,7 @@ Classifier model: __________________ → giá $_____ / $_____  per 1M tokens (ho
 
 ```text
 □ Last 3
-□ Last 5
+☑ Last 5
 □ Full
 □ Summarize every ___ turns
 ```
@@ -159,13 +160,13 @@ Classifier model: __________________ → giá $_____ / $_____  per 1M tokens (ho
 ### Lý do nhóm chọn config này
 
 ```text
-(điền 2–3 câu lý do vào đây)
+Config này áp dụng nguyên tắc "dùng đúng mức trí thông minh cho đúng loại câu hỏi": intent phức tạp (Visa) dùng model mạnh hơn (Haiku 4.5), trong khi câu hỏi Guide và Weather đơn giản hơn có thể xử lý bằng Flash-Lite rẻ hơn. Web search selective giữ thông tin Visa và thời tiết luôn fresh mà không bật bừa cho tất cả. Last 5 đủ nhớ ngữ cảnh hầu hết conversation (cả Scenario B 7 turns) mà không phình token như Full history.
 ```
 
 ### Rủi ro lớn nhất của config này
 
 ```text
-(điền 1 câu rủi ro)
+Logic routing theo intent phức tạp hơn — nếu classifier nhận sai intent (ví dụ: nhầm câu hỏi Visa thành Guide), bot sẽ dùng Flash-Lite thay vì Haiku, dẫn đến câu trả lời kém chính xác cho thông tin nhạy cảm.
 ```
 
 ---

@@ -27,10 +27,16 @@ Viết **5–7 câu hỏi bằng tiếng Anh** mình sẽ thật sự gửi cho 
 
 → Mỗi người viết vào ô dưới (chưa có gì sẵn — đừng nhìn người bên cạnh):
 
-### Tourist #1 (Tên thành viên: _________)
+### Tourist #1 (Tên thành viên: Hoàng Kim Trí Thành)
 
 ```text
-(điền 5–7 câu hỏi tiếng Anh vào đây)
+1. I'm traveling solo from the UK for 3 weeks. Which regions of Vietnam should I prioritize and in what order?
+2. What is the current visa policy for UK passport holders? Do I need to apply in advance or can I get one on arrival?
+3. I'm arriving in late October — is that a bad time due to typhoon season? Which areas should I avoid?
+4. Can you suggest some authentic local experiences in Hoi An that are off the beaten track?
+5. What's the best way to travel between Hanoi and Ho Chi Minh City — train, bus, or domestic flight?
+6. I have a nut allergy. How do I communicate this to restaurant staff, and which dishes should I avoid?
+7. Are there any local festivals or cultural events happening in November I should plan around?
 ```
 
 ### Tourist #2 (Tên thành viên: Quách Gia Được)

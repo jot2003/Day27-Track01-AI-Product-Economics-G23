@@ -171,19 +171,20 @@ Cost/conv khá cao nhưng vẫn nằm ở mức chấp nhận được (<$0.10).
 
 ---
 
-### Config 3 — _________________________
+### Config 3 — Smart Mix
 
-| Item | Scenario A | Scenario B |
+| Item | Scenario A (4 turns) | Scenario B (7 turns) |
 |---|---|---|
-| Cost / conversation (avg) | $________ | $________ |
-| Monthly cost | $________ | $________ |
-| **Rẻ hơn human ___×** | _____× | _____× |
-| **Savings %** | ___% | ___% |
+| Cost / conversation (avg) | $0.0159 | $0.0195 |
+| Monthly cost | $143.10 | $702.00 |
+| Human baseline | $4,500 | $18,000 |
+| **Rẻ hơn human** | 31.5× | 25.6× |
+| **Savings %** | 96.8% | 96.1% |
 
 **Sanity check**:
 
 ```text
-(điền nhận xét nhanh)
+Cost/conv nằm trong range $0.005–$0.10 — hợp lý. Smart Mix đắt hơn Budget Bot (~16×) vì Visa dùng Haiku 4.5 + web search ON, nhưng rẻ hơn Premium Concierge (~3.6×) vì Guide và Weather dùng Flash-Lite và history chỉ Last 5. Monthly B tăng ~4.9× so với A (Budget Bot chỉ tăng ~4.8×) — hợp lý vì Scenario B có nhiều Booking/Complaint hơn (handoff $0) bù lại turns dài hơn.
 ```
 
 ---
@@ -207,7 +208,7 @@ Mỗi config — estimate Low / Medium / High. Không có công cụ đo chính 
 |---|---|---|---|
 | 1: Budget Bot | Low | High | Dùng model siêu rẻ, tắt web search và history ngắn nên tốc độ rất nhanh. |
 | 2: Premium Concierge | High | Med | Dùng model xịn, bật web search chọn lọc, nhưng độ trễ có thể cao hơn do model xịn xử lý Full History. |
-| 3: ___ | ___ | ___ | (1 câu) |
+| 3: Smart Mix | Med-High | Med | Visa dùng Haiku 4.5 → chất lượng tốt; Guide dùng Flash-Lite → nhanh nhưng kém hơn một chút; web ON cho Visa+Weather thêm ~1s độ trễ. |
 | 4: ___ | ___ | ___ | (1 câu) |
 
 **Hướng dẫn ước tính**:
